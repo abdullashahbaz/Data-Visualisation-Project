@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olympic Data Story – F20DV Group 3</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/charts.css" />
+</head>
+<body>
+
+  <main id="app">
+
+    <!-- ═══════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════ -->
+    <section id="hero">
+      <div class="hero-left">
+        <div class="hero-accent"></div>
+        <div>
+          <h1>Olympics &amp; GDP</h1>
+          <p>Which nations have dominated the Summer Olympics over time, and how much
+             does national wealth explain their success? Explore 56 years of athlete data
+             (1960–2016) combined with World Bank GDP figures to find out.</p>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-label">Countries</span>
+          <span class="stat-value" id="stat-countries">–</span>
+        </div>
+        <div class="stat-card stat-card--selected">
+          <span class="stat-label">Selected</span>
+          <span class="stat-value" id="stat-selected">None</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Period</span>
+          <span class="stat-value" id="stat-years">1960–2016</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Medals</span>
+          <span class="stat-value" id="stat-medals">–</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         CONTROLS
+    ═══════════════════════════════════════════════════ -->
+    <div id="controls">
+      <div class="control-group">
+        <label for="country-search">Find Country</label>
+        <select id="country-search">
+          <option value="">Show All</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="medal-filter">Min Total Medals</label>
+        <select id="medal-filter">
+          <option value="0">Show All</option>
+          <option value="1">At least 1</option>
+          <option value="10">At least 10</option>
+          <option value="50">At least 50</option>
+          <option value="100">100+</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="gdp-filter">Min GDP/Capita</label>
+        <select id="gdp-filter">
+          <option value="0">Show All</option>
+          <option value="5000">$5 000+</option>
+          <option value="20000">$20 000+</option>
+          <option value="50000">$50 000+</option>
+        </select>
+      </div>
+      <button id="clear-selection" class="btn-clear">✕ Clear Selection</button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         CHAPTER 1 – GDP, EFFICIENCY MAP + COUNTRY TIMELINE
+         (all three charts linked together in one section)
+    ═══════════════════════════════════════════════════ -->
+    <section id="section-overview" class="story-section">
+
+      <div class="story-intro">
+        <span class="chapter-tag">Chapter 1</span>
+        <h2>Does Money Win Medals?</h2>
+        <p>
+          The intuition is straightforward: wealthier nations can fund better training
+          facilities, coaching staff, sports science programmes, and athlete development
+          pathways. But how strong is this relationship in practice?
+        </p>
+        <p style="margin-top:12px;">
+          Each bubble represents a nation. Its horizontal position reflects average GDP
+          per capita (log scale); its vertical position shows total medals won. Bubble
+          <em>size</em> encodes the number of athletes sent. The map shows
+          <em>medal efficiency</em> - medals per $10 000 of GDP/capita - revealing
+          nations that punch above their economic weight.
+        </p>
+        <p style="margin-top:12px;">
+          <strong>Click any bubble or country on the map</strong> to select it - the
+          timeline below will immediately update to show that country's medals and GDP
+          trend across every Olympic edition.
+        </p>
+      </div>
+
+      <!-- Bubble chart + Map side by side -->
+      <div id="dashboard-grid">
+        <section id="bubble-section">
+          <div class="section-header">
+            <h3>GDP vs Total Medals</h3>
+            <p>Bubble size = athlete count (per event) &nbsp;·&nbsp; Scroll to zoom</p>
+          </div>
+          <div id="bubble-chart"></div>
+          <div class="bubble-legend-html">
+            <span class="legend-item">
+              <svg width="12" height="12"><circle cx="6" cy="6" r="6" fill="rgba(245,158,11,0.55)" stroke="#fde68a" stroke-width="1"/></svg>
+              ~500 athletes
+            </span>
+            <span class="legend-item">
+              <svg width="20" height="20"><circle cx="10" cy="10" r="10" fill="rgba(245,158,11,0.55)" stroke="#fde68a" stroke-width="1"/></svg>
+              ~2,000 athletes
+            </span>
+            <span class="legend-item">
+              <svg width="28" height="28"><circle cx="14" cy="14" r="14" fill="rgba(245,158,11,0.55)" stroke="#fde68a" stroke-width="1"/></svg>
+              ~5,000 athletes
+            </span>
+          </div>
+        </section>
+
+        <section id="map-section">
+          <div class="section-header">
+            <h3>Medal Efficiency Map</h3>
+            <p>Medals per $10 000 GDP/capita &nbsp;·&nbsp; Scroll to zoom</p>
+          </div>
+          <div id="map-chart"></div>
+        </section>
+      </div>
+
+      <!-- Timeline directly below, visually connected to Chapter 1 -->
+      <div class="timeline-connector">
+        <div class="connector-line"></div>
+        <span class="connector-label">Select a country above to explore its journey below</span>
+        <div class="connector-line"></div>
+      </div>
+
+      <section id="timeline-section">
+        <div class="section-header">
+          <h3>Medals &amp; GDP Over Time</h3>
+          <p id="timeline-subtitle">Select a country in either chart above to begin</p>
+        </div>
+        <div id="timeline-chart"></div>
+      </section>
+
+      <div class="insight-callout">
+        <span class="insight-icon">💡</span>
+        <p>
+          <strong>Key insight:</strong> A moderate positive correlation (R² ≈ 0.50) exists
+          between GDP per capita and medal count - but wealth explains only half the story.
+          Cuba, Kenya, Jamaica, and Ethiopia consistently win medals far beyond what their
+          economic output would predict, pointing to the role of sporting culture and
+          government investment in specific disciplines.
+        </p>
+      </div>
+
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         CONCLUSION – before the bump chart
+    ═══════════════════════════════════════════════════ -->
+    <section id="conclusion">
+      <div class="conclusion-inner">
+        <h2>What the Data Tells Us</h2>
+        <p style="color:var(--muted); margin-bottom:28px; max-width:780px; font-size:0.98rem;">
+          Across 56 years of Summer Olympics, three findings stand out. Wealth matters -
+          but it is neither sufficient nor strictly necessary. Sporting culture, political
+          investment, and historical contingency all leave clear signatures in the data.
+        </p>
+        <div class="conclusion-grid">
+          <div class="conclusion-card">
+            <span class="conclusion-num">~0.50</span>
+            <p>R² correlation between GDP per capita and total medals. A real relationship - but half the variance remains unexplained by wealth alone.</p>
+          </div>
+          <div class="conclusion-card">
+            <span class="conclusion-num">3</span>
+            <p>Nations : USA, USSR/Russia, and China - have collectively accounted for over a third of all Summer Olympic medals in this dataset.</p>
+          </div>
+          <div class="conclusion-card">
+            <span class="conclusion-num">1992</span>
+            <p>The inflection year : Soviet dissolution fragmented the Eastern bloc's medals, and China's emergence began permanently reshaping the table.</p>
+          </div>
+        </div>
+        <p class="conclusion-cta">
+          Scroll down to see how national dominance has shifted across every Olympic
+          edition - the bump chart below brings the historical picture together.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         CHAPTER 2 – BUMP CHART  (after conclusion)
+    ═══════════════════════════════════════════════════ -->
+    <section id="section-dominance" class="story-section">
+
+      <div class="story-intro">
+        <span class="chapter-tag">Chapter 2</span>
+        <h2>Who Has Dominated the Olympics?</h2>
+        <p>
+          The charts above show wealth and efficiency in aggregate. This <strong>bump
+          chart</strong> shows how the medal-table rank of the top 15 nations changed
+          across every Summer Olympics from 1960 to 2016. Rank 1 means most medals that
+          year - the best position is at the top of the chart.
+        </p>
+        <p style="margin-top:12px;">
+          Two dashed vertical lines mark the <em>1980 Moscow boycott</em> (USA absent)
+          and the <em>1984 Los Angeles boycott</em> (USSR absent) - moments where
+          geopolitics visibly warped the medal table. Notice how lines disappear and
+          reappear around those years.
+          <strong>Click any line or country label to select that nation.</strong>
+        </p>
+      </div>
+
+      <section id="bump-section">
+        <div class="section-header">
+          <h3>Medal Table Rank Over Time (Top 15 Nations)</h3>
+          <p>Rank 1 = most medals that year &nbsp;·&nbsp; Click a line or label to select</p>
+        </div>
+        <div id="bump-chart"></div>
+      </section>
+
+      <div class="insight-callout">
+        <span class="insight-icon">💡</span>
+        <p>
+          <strong>Key insight:</strong> The USA and Soviet Union traded top-two positions
+          throughout the Cold War era. After Soviet dissolution in 1991, Russia's rank
+          dropped sharply as medals fragmented across newly independent states. China's
+          dramatic rise from the mid-1990s permanently reshaped the top of the table,
+          reaching rank 1 at the 2008 Beijing home Games.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div id="tooltip" class="tooltip hidden"></div>
+
+  <script src="libs/d3/d3.v7.min.js"></script>
+  <script src="scripts/state.js"></script>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/bubble.js"></script>
+  <script src="scripts/map.js"></script>
+  <script src="scripts/bump.js"></script>
+  <script src="scripts/timeline.js"></script>
+  <script src="scripts/controls.js"></script>
+  <script src="scripts/main.js"></script>
+
+</body>
+</html>
