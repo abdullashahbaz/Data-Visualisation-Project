@@ -1,0 +1,132 @@
+/* ============================================================
+   styles/charts.css
+   Chart-specific styles: containers, axes, tooltip, and
+   per-chart visual elements (bubble, map, bump, timeline).
+   ============================================================ */
+
+/* ── Chart container panels ────────────────────────────────── */
+#bubble-chart, #map-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 450px;
+  height: 450px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #0b0b0b, #101010);
+  padding: 18px;
+}
+
+#bump-chart,
+#timeline-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 450px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #0b0b0b, #101010);
+  padding: 18px;
+}
+#map-chart svg { cursor: grab; }
+#map-chart svg:active { cursor: grabbing; }
+
+/* ── Axes & grid ────────────────────────────────────────────── */
+.axis text       { fill: #b0b0b0; font-size: 12px; }
+.axis path,
+.axis line       { stroke: rgba(255,255,255,0.15); }
+
+/* Right y-axis (GDP, timeline chart) gets a blue tint */
+.axis.y-axis-right text  { fill: var(--blue); }
+.axis.y-axis-right path,
+.axis.y-axis-right line  { stroke: rgba(147,197,253,0.25); }
+
+.grid line { stroke: rgba(250,204,21,0.07); stroke-dasharray: 3 3; }
+.grid path { stroke: none; }
+
+.axis-label { fill: #d0d0d0; font-size: 13px; font-weight: 500; }
+
+/* ── Tooltip ─────────────────────────────────────────────────── */
+.tooltip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 230px;
+  padding: 12px 15px;
+  border-radius: var(--radius-md);
+  background: rgba(8, 8, 12, 0.97);
+  border: 1px solid rgba(250,204,21,0.22);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+.tooltip.hidden { display: none; }
+.tooltip strong { display: block; margin-bottom: 5px; font-size: 14px; color: #fff; }
+
+/* ── Empty / error state ──────────────────────────────────────── */
+.empty-message {
+  padding: 30px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* ── Chart 1: Bubble Chart ───────────────────────────────────── */
+.bubble       { cursor: pointer; }
+.bubble-label { fill: #f0f0f0; font-size: 11px; font-weight: 600; pointer-events: none; }
+
+.bubble-legend text   { fill: #b0b0b0; font-size: 11px; }
+.bubble-legend circle { fill: none; stroke: rgba(255,255,255,0.3); }
+.bubble-legend line   { stroke: rgba(255,255,255,0.3); }
+
+/* ── Chart 2: Choropleth Map ─────────────────────────────────── */
+.map-country { stroke: rgba(255,255,255,0.08); stroke-width: 0.5px; }
+.legend-label { fill: #aaa; font-size: 10px; }
+
+/* ── Chart 3: Bump Chart ─────────────────────────────────────── */
+.bump-line    { stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.bump-dot     { cursor: pointer; }
+.bump-label   { font-size: 11px; font-weight: 600; pointer-events: none; dominant-baseline: middle; }
+.bump-country { transition: opacity 0.3s; }
+
+.annotation-line {
+  stroke: rgba(255,255,255,0.2);
+  stroke-dasharray: 4 3;
+  stroke-width: 1;
+}
+
+.annotation-text {
+  fill: rgba(255,255,255,0.4);
+  font-size: 10px;
+}
+
+/* ── Chart 4: Country Timeline ───────────────────────────────── */
+.medals-line      { stroke-linecap: round; }
+.gdp-line         { stroke-linecap: round; stroke-dasharray: 6 3; }
+.medals-line-dot  { cursor: pointer; }
+.gdp-line-dot     { cursor: pointer; }
+
+/* ── HTML bubble legend (outside SVG) ───────────────────────── */
+.bubble-legend-html {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.legend-item svg {
+  flex-shrink: 0;
+}
