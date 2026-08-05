@@ -103,7 +103,7 @@ Data-Visualisation-Project/
 ├── styles/
 │   ├── main.css
 │   └── charts.css
-├── scripts/
+├── script/
 │   ├── state.js
 │   ├── utils.js
 │   ├── bubble.js
